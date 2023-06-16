@@ -1,0 +1,65 @@
+load("@rules_proto//proto:defs.bzl", "proto_library")
+load("@com_github_grpc_grpc//bazel:cc_grpc_library.bzl", "cc_grpc_library")
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_proto_library")
+load("@com_github_3rdparty_eventuals//bazel:cc_eventuals_library.bzl", "cc_eventuals_library")
+
+proto_library(
+    name = "helloworld",
+    srcs = [
+        "proto/helloworld/helloworld.proto",
+    ],
+)
+
+cc_proto_library(
+    name = "helloworld-proto",
+    deps = [
+        ":helloworld",
+    ],
+)
+
+cc_grpc_library(
+    name = "helloworld-grpc",
+    srcs = [
+        ":helloworld",
+    ],
+    grpc_only = True,
+    deps = [
+        ":helloworld-proto",
+    ],
+)
+
+cc_eventuals_library(
+    name = "helloworld-eventuals-generated",
+    srcs = [
+        "proto/helloworld/helloworld.proto",
+    ],
+    deps = [
+        ":helloworld",
+    ],
+)
+
+cc_binary(
+    name = "test",
+    srcs = [
+        "helloworld_eventuals_server.cc",
+        ":helloworld-eventuals-generated",
+    ],
+    deps = [
+        ":helloworld-grpc",
+        "@com_github_3rdparty_eventuals//eventuals",
+        "@com_github_3rdparty_eventuals//eventuals/grpc",
+    ],
+)
+
+cc_binary(
+    name = "client",
+    srcs = [
+        "client.cc",
+        ":helloworld-eventuals-generated",
+    ],
+    deps = [
+        ":helloworld-grpc",
+        "@com_github_3rdparty_eventuals//eventuals",
+        "@com_github_3rdparty_eventuals//eventuals/grpc",
+    ],
+)

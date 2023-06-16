@@ -1,0 +1,19 @@
+
+Summary:
+  Count:	2
+  Total:	20.01 s
+  Slowest:	0 ns
+  Fastest:	0 ns
+  Average:	20.00 s
+  Requests/sec:	0.10
+
+Response time histogram:
+
+Latency distribution:
+
+Status code distribution:
+  [DeadlineExceeded]   2 responses   
+
+Error distribution:
+  [2]   rpc error: code = DeadlineExceeded desc = Deadline Exceeded   
+

@@ -1,0 +1,35 @@
+workspace(name = "benchmark")
+
+########################################################################
+
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+
+########################################################################
+
+git_repository(
+    name = "com_github_3rdparty_eventuals",
+    commit = "3b10964b7e36b7ed86ba58947e32cb31c716b44c",
+    recursive_init_submodules = True,
+    remote = "https://github.com/onelxj/eventuals/",
+    shallow_since = "1684431539 +0200",
+)
+
+load("@com_github_3rdparty_eventuals//bazel:submodules.bzl", eventuals_submodules = "submodules")
+
+eventuals_submodules()
+
+load("@com_github_3rdparty_eventuals//bazel:repos.bzl", eventuals_repos = "repos")
+
+eventuals_repos()
+
+load("@com_github_3rdparty_eventuals//bazel:deps.bzl", eventuals_deps = "deps")
+
+eventuals_deps()
+
+########################################################################
+
+load("@com_github_grpc_grpc//bazel:grpc_extra_deps.bzl", "grpc_extra_deps")
+
+grpc_extra_deps()
+
+########################################################################
